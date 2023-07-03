@@ -33,10 +33,9 @@ public class UserRequestListener {
         byte[] body = message.getBody();
         UUIDListPayload userIds = (UUIDListPayload) SerializationUtils.deserialize(body);
         List<UserDTO> users = keycloakService.getPlayerByUuid(userIds.getUuids());
-        UserDTOListPayload payload = new UserDTOListPayload();
-        payload.setUsers(users);
+
         //This is the message to be returned by the server
-        Message build = MessageBuilder.withBody(SerializationUtils.serialize(payload)).build();
+        Message build = MessageBuilder.withBody(SerializationUtils.serialize(new UserDTOListPayload(users))).build();
         CorrelationData correlationData = new CorrelationData(message.getMessageProperties().getCorrelationId());
         rabbitTemplate.sendAndReceive(RabbitMQConfig.USER_EXCHANGE, RabbitMQConfig.USER_RESPONSE_QUEUE, build, correlationData);
     }
