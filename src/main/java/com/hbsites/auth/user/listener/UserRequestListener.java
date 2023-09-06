@@ -5,6 +5,7 @@ import com.hbsites.auth.user.service.KeycloakService;
 import com.hbsites.hbsitescommons.messages.UUIDListPayload;
 import com.hbsites.hbsitescommons.dto.UserDTO;
 import com.hbsites.hbsitescommons.messages.UserDTOListPayload;
+import com.hbsites.hbsitescommons.queues.RabbitQueues;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -28,13 +29,11 @@ public class UserRequestListener {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues = RabbitMQConfig.USER_REQUEST_QUEUE)
+    @RabbitListener(queues = RabbitQueues.USER_REQUEST_QUEUE)
     public void process(UUIDListPayload message) {
         List<UserDTO> users = keycloakService.getPlayerByUuid(message.uuids());
 
-        //This is the message to be returned by the server
-        UserDTOListPayload build = new UserDTOListPayload(users);
-//        CorrelationData correlationData = new CorrelationData();
-        rabbitTemplate.convertSendAndReceiveAsType(RabbitMQConfig.USER_EXCHANGE, RabbitMQConfig.USER_RESPONSE_QUEUE, build, new ParameterizedTypeReference<>(){});
+        UserDTOListPayload build = new UserDTOListPayload(users, message.userRequested(), message.session(), message.characterSheet());
+        rabbitTemplate.convertAndSend(message.microservice().getExchange(), message.microservice().getUserReplyQueue(), build);
     }
 }

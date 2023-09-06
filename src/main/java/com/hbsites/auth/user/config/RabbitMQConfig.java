@@ -1,7 +1,9 @@
 package com.hbsites.auth.user.config;
 
+import com.hbsites.hbsitescommons.queues.RabbitQueues;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -12,37 +14,53 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-    public static final String USER_REQUEST_QUEUE = "user.request";
-    public static final String USER_RESPONSE_QUEUE = "user.response";
-    public static final String USER_EXCHANGE = "user-exchange";
+
+    @Bean
+    DirectExchange userExchange() {
+        return new DirectExchange(RabbitQueues.USER_EXCHANGE);
+    }
+    @Bean
+    DirectExchange coreExchange() {
+        return new DirectExchange(RabbitQueues.RPGTRACKER_CORE_EXCHANGE);
+    }
+    @Bean
+    DirectExchange cocExchange() {
+        return new DirectExchange(RabbitQueues.RPGTRACKER_COC_EXCHANGE);
+    }
+
 
     @Bean
     Queue msgQueue() {
-        return new Queue(USER_REQUEST_QUEUE);
+        return new Queue(RabbitQueues.USER_REQUEST_QUEUE);
     }
-
     @Bean
-    Queue replyQueue() {
-        return new Queue(USER_RESPONSE_QUEUE);
+    Queue replyCoreQueue() {
+        return new Queue(RabbitQueues.CORE_USER_RESPONSE_QUEUE);
     }
-
     @Bean
-    TopicExchange topicExchange() {
-        return new TopicExchange(USER_EXCHANGE);
+    Queue replyCoCQueue() {
+        return new Queue(RabbitQueues.COC_USER_RESPONSE_QUEUE);
     }
 
     @Bean
     Binding msgBinding() {
         return BindingBuilder.bind(msgQueue())
-                .to(topicExchange())
-                .with(USER_REQUEST_QUEUE);
+                .to(userExchange())
+                .with(RabbitQueues.USER_REQUEST_QUEUE);
     }
 
     @Bean
-    Binding replyBinding() {
-        return BindingBuilder.bind(replyQueue())
-                .to(topicExchange())
-                .with(USER_RESPONSE_QUEUE);
+    Binding replyCoCBinding() {
+        return BindingBuilder.bind(replyCoCQueue())
+                .to(cocExchange())
+                .with(RabbitQueues.COC_USER_RESPONSE_QUEUE);
+    }
+
+    @Bean
+    Binding replyCoreBinding() {
+        return BindingBuilder.bind(replyCoreQueue())
+                .to(coreExchange())
+                .with(RabbitQueues.CORE_USER_RESPONSE_QUEUE);
     }
 
     @Bean
