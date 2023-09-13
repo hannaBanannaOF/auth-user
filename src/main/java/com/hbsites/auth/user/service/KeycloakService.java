@@ -17,18 +17,16 @@ import java.util.UUID;
 
 @Service
 public class KeycloakService {
-    private final String REALM = "hbsites";
+    private final String REALM = "HBsites";
     private final Keycloak kc;
 
     public KeycloakService() {
         kc = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8083/auth")
-                .grantType(OAuth2Constants.PASSWORD)
+                .serverUrl("http://localhost:8083/")
+                .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .realm(REALM)
                 .clientId("keycloak-admin")
-                .username("webclientuser")
-                .password("webclientuser")
-                .scope("roles")
+                .clientSecret("IimlWGf2LTK5LCLf3JEWuJMCSv2MTK59")
                 .resteasyClient(new ResteasyClientBuilderImpl().connectionPoolSize(10).build())
                 .build();
     }
