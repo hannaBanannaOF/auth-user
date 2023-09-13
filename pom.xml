@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.hbsites.auth</groupId>
 	<artifactId>user-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>auth-user-service</name>
-	<description>Demo project for Spring Boot</description>
+	<description>User data fetch microsservice</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>com.hbsites</groupId>
 			<artifactId>hbsites-commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
