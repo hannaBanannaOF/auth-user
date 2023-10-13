@@ -1,7 +1,7 @@
 package com.hbsites.auth.user.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hbsites.hbsitescommons.security.KeycloakJwtAuthenticationConverter;
+import com.hbsites.hbsitescommons.commons.security.KeycloakJwtAuthenticationConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

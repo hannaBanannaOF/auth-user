@@ -1,7 +1,7 @@
 package com.hbsites.auth.user.config;
 
-import com.hbsites.hbsitescommons.config.ApiVersionRequestMappingHandlerMapping;
-import com.hbsites.hbsitescommons.config.RequestInterceptor;
+import com.hbsites.hbsitescommons.commons.config.ApiVersionRequestMappingHandlerMapping;
+import com.hbsites.hbsitescommons.commons.config.RequestInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;

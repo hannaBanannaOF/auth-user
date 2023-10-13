@@ -1,6 +1,6 @@
 package com.hbsites.auth.user.service;
 
-import com.hbsites.hbsitescommons.dto.UserDTO;
+import com.hbsites.hbsitescommons.commons.dto.UserDTO;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
@@ -22,7 +22,7 @@ public class KeycloakService {
 
     public KeycloakService() {
         kc = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8083/")
+                .serverUrl("http://keycloak:8080/")
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .realm(REALM)
                 .clientId("keycloak-admin")
